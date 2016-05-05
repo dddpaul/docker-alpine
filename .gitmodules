@@ -1,3 +1,6 @@
 [submodule "alpine-java"]
 	path = alpine-java
 	url = git@github.com:dddpaul/docker-alpine-java.git
+[submodule "alpine-postgres"]
+	path = alpine-postgres
+	url = git@github.com:dddpaul/docker-alpine-postgres.git
