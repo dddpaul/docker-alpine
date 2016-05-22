@@ -7,3 +7,6 @@
 [submodule "alpine-stolon"]
 	path = alpine-stolon
 	url = git@github.com:dddpaul/docker-alpine-stolon.git
+[submodule "alpine-lets-nginx"]
+	path = alpine-lets-nginx
+	url = git@github.com:dddpaul/lets-nginx
