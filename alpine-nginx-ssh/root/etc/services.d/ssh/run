@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv bash
 
-set -e
-
 # Copy default config from cache
 if [ ! "$(ls -A /etc/ssh)" ]; then
    cp -a /etc/ssh.cache/* /etc/ssh/
@@ -12,18 +10,25 @@ if ! ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
     ssh-keygen -A
 fi
 
-# Fix permissions, if writable
-if [ -w ~/.ssh ]; then
-    chown root:root ~/.ssh && chmod 700 ~/.ssh/
-fi
-if [ -w ~/.ssh/authorized_keys ]; then
-    chown root:root ~/.ssh/authorized_keys
-    chmod 600 ~/.ssh/authorized_keys
-fi
-
-# Warn if no config
-if [ ! -e ~/.ssh/authorized_keys ]; then
-  echo "WARNING: No SSH authorized_keys found for root"
+# Add authorized_keys for root
+if [ "${AUTHORIZED_KEYS}" != "**None**" ]; then
+    echo "=> Found authorized keys"
+    mkdir -p /root/.ssh
+    chmod 700 /root/.ssh
+    touch /root/.ssh/authorized_keys
+    chmod 600 /root/.ssh/authorized_keys
+    IFS=','
+    for x in ${AUTHORIZED_KEYS}; do
+        x=$(echo $x | sed -e 's/^ *//' -e 's/ *$//')
+        cat /root/.ssh/authorized_keys | grep $x > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "=> Adding public key to .ssh/authorized_keys: $x"
+            echo "$x" >> /root/.ssh/authorized_keys
+        fi
+    done
+else
+    echo "ERROR: No authorized keys found in \$AUTHORIZED_KEYS"
+    exit 1
 fi
 
 exec /usr/sbin/sshd -f /etc/ssh/sshd_config -D

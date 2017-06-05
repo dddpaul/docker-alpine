@@ -1,6 +1,9 @@
 FROM smebberson/alpine-base:3.0.0
 MAINTAINER Pavel Derendyaev <dddpaul@gmail.com>
 
+# Taken from https://github.com/docker/dockercloud-authorizedkeys
+ENV AUTHORIZED_KEYS **None**
+
 # Install nginx & ssh
 RUN echo "http://dl-4.alpinelinux.org/alpine/v3.3/main" >> /etc/apk/repositories && \
     apk add --update nginx=1.8.1-r1 bash git openssh && \
