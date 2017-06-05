@@ -7,6 +7,13 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/v3.3/main" >> /etc/apk/repositories
     rm -rf /var/cache/apk/* && \
     chown -R nginx:www-data /var/lib/nginx
 
+# Generate host ssh keys and enable ssh for root
+RUN mkdir -p /root/.ssh && \
+    chmod 700 /root/.ssh && \
+    echo -e "\nPermitRootLogin yes\n" >> /etc/ssh/sshd_config && \
+    ssh-keygen -A && \
+    cp -a /etc/ssh /etc/ssh.cache
+
 # Add the files
 ADD root /
 
