@@ -16,3 +16,6 @@
 [submodule "alpine-tomcat7"]
 	path = alpine-tomcat7
 	url = git@github.com:dddpaul/docker-alpine-tomcat7.git
+[submodule "alpine-sshd"]
+	path = alpine-sshd
+	url = git@github.com:dddpaul/docker-alpine-sshd.git
