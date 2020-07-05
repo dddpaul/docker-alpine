@@ -1,4 +1,4 @@
-FROM anapsix/alpine-java:8
+FROM bellsoft/liberica-openjdk-alpine:8
 MAINTAINER Pavel Derendyaev <dddpaul@gmail.com>
 RUN apk add --update bash \
   python python-dev py-pip \
